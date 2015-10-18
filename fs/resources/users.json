@@ -1,0 +1,12 @@
+[
+  {
+    "login": "user",
+    "password": "pass",
+    "captcha": "2*x + 1"
+  },
+  {
+    "login": "admin",
+    "password": "admin",
+    "captcha": "x + 3"
+  }
+]

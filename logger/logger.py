@@ -9,6 +9,11 @@ class Logger(object):
             os.makedirs(log_dir_path)
         self._log_dir_path = log_dir_path
 
+    @classmethod
+    def default_logger(cls):
+        return cls(os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                'logs'))
+
     def info(self, user_name, message):
         self._log('info', user_name, message)
 

@@ -15,17 +15,30 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.urlpatterns import format_suffix_patterns
+from django.http import HttpResponse
 
-@api_view(['GET', 'POST', ])
-def a(request, format=None):
-    return Response({"success": True})
+
+def test(request):
+    return HttpResponse('Hello World')
+
+
+import api
 
 urlpatterns = [
+    # admin
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^a/', a),
+    #test
+    url(r'^test/', api.login),
+    # fs
+    url(r'^login/', api.login),
+    url(r'^logout/', api.logout),
+    url(r'^logged/', api.logged),
+    url(r'^logout/', api.logout),
+    url(r'^check-captcha/', api.check_captcha),
+    url(r'^read/(?P<path>\w{0,100})', api.read),
+    url(r'^write/(?P<path>\w{0,1000})', api.write),
+    url(r'^execute/(?P<path>\w{0,100})', api.execute),
+    url(r'^delete/(?P<path>\w{0,100})', api.delete)
 ]
 
-#urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])
+# urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])

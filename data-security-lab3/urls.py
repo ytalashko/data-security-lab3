@@ -28,7 +28,7 @@ urlpatterns = [
     # admin
     url(r'^admin/', include(admin.site.urls)),
     #test
-    url(r'^test/', api.login),
+    url(r'^test/', api.test),
     # fs
     url(r'^login/', api.login),
     url(r'^logout/', api.logout),

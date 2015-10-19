@@ -19,6 +19,7 @@ from django.http import HttpResponse
 
 
 def test(request):
+    print('test')
     return HttpResponse('Hello World')
 
 
@@ -28,7 +29,7 @@ urlpatterns = [
     # admin
     url(r'^admin/', include(admin.site.urls)),
     #test
-    url(r'^test/', api.test),
+    url(r'^test/', test),
     # fs
     url(r'^login/', api.login),
     url(r'^logout/', api.logout),

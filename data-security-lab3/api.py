@@ -37,7 +37,7 @@ def read(request, path):
 
 @csrf_exempt
 def write(request, path):
-    data = request.GET.get('data')
+    data = request.POST.get('data')
     result = fs.write(path, data)
     return HttpResponse(result)
 
@@ -48,5 +48,6 @@ def execute(request, path):
 
 @csrf_exempt
 def delete(request, path):
+    print('delete')
     result = fs.delete(path)
     return HttpResponse(result)

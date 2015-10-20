@@ -174,9 +174,12 @@ class FileSystem():
             topology = list()
             for i in range(0, width):
                 isFile = random.choice([True, False])
+                print(isFile)
                 user_name = random.choice(self._users.keys())
+                print(user_name)
                 name = ''.join(random.choice(string.lowercase)
                                for _ in range(random.randint(7, 14)))
+                print(name)
                 if isFile:
                     topology.append(File(user_name, name))
                 else:

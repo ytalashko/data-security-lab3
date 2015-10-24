@@ -7,18 +7,19 @@
 </head>
 <body>
     <h1>Login form</h1>
-    <form action="/login/" method="post">
+    <form action="/login/" method="post" id="loginForm">
         <label for="username">Username</label>
         <input type="text" name="username">
         <p></p>
         <label for="password">Password</label>
         <input type="password" name="password">
         <p></p>
-        <label for="y">Y = </label>
-        <input type="text" name="y" >
+        <label for="y" id="captcha"></label>
+        <input type="text" name="y">
         <p></p>
-        <input type="hidden" name="x" value="2">
         <input type="submit" value="Login">
     </form>
+    <script type="text/javascript" src="{% static 'admin/js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
 </body>
 </html>

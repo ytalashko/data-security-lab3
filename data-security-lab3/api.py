@@ -1,13 +1,16 @@
+import json
+import random
+
 from fs.fs import FileSystem
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-import json
 
 fs = FileSystem()
+x = random.randint(1, 9)
 
 
 class JsonHttpResponse(HttpResponse):
-    def __init__(self, content=b'',type='primitive', *args, **kwargs):
+    def __init__(self, content=b'', type='primitive'):
         super(JsonHttpResponse, self).__init__(JsonHttpResponse.to_json(content, type))
 
     @staticmethod
@@ -15,14 +18,20 @@ class JsonHttpResponse(HttpResponse):
         if type == 'object':
             return json.dumps(object.__dict__)
         else:
-            return  json.dumps(object)
+            return json.dumps(object)
+
+
+@csrf_exempt
+def get_x(request):
+    global x
+    x = random.randint(1, 9)
+    return JsonHttpResponse(x)
 
 
 @csrf_exempt
 def login(request):
     user_name = request.POST.get('username')
     password = request.POST.get('password')
-    x = request.POST.get('x')
     y = request.POST.get('y')
     result = fs.login(user_name, password, x, y)
     return JsonHttpResponse(result)

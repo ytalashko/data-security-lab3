@@ -20,14 +20,12 @@ import views
 import api
 
 urlpatterns = [
-    url(r'^/?$', views.index),
+    url(r'^/$', views.index),
     # admin
     url(r'^admin/', include(admin.site.urls)),
-    #test
-    # url(r'^test/', views.test, name='test'),
     # fs
     url(r'^login/', api.login),
-    url(r'^logout/', api.logout),
+    url(r'^x/', api.get_x),
     url(r'^logged/', api.logged),
     url(r'^logout/', api.logout),
     url(r'^check-captcha/', api.check_captcha),

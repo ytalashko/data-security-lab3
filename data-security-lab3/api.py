@@ -48,7 +48,12 @@ def check_captcha(request):
 
 @csrf_exempt
 def read(request, path):
-    result = fs.read(path)
+    data = fs.read(path)
+    if type(data) is list:
+        result = [{'name': e.name, 'user': e.user_name,
+                   'right': e.ao_right} for e in data]
+    else:
+        result = data
     return HttpResponse(json.dumps(result))
 
 

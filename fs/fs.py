@@ -34,6 +34,8 @@ class FileSystem():
         return self._users[self._current_user]['captcha'](x, y)
 
     def read(self, path):
+        if path == '':
+            return self._topology
         ao = self._get_accessible_object(path)
         if ao:
             if self._check_right(ao, 0):
@@ -47,6 +49,8 @@ class FileSystem():
         return None
 
     def write(self, path, data):
+        if path == '':
+            return False
         ao = self._get_accessible_object(path)
         if ao:
             if self._check_right(ao, 1):
@@ -61,6 +65,8 @@ class FileSystem():
         return False
 
     def execute(self, path):
+        if path == '':
+            return False
         ao = self._get_accessible_object(path)
         if ao:
             if self._check_right(ao, 2):
@@ -75,6 +81,8 @@ class FileSystem():
         return False
 
     def delete(self, path):
+        if path == '':
+            return False
         ao = self._get_accessible_object(path)
         if ao:
             if self._check_right(ao, 1):
@@ -96,12 +104,16 @@ class FileSystem():
     # Do not checks for right path
     def _delete_accessible_object(self, ao_path):
         path = str(ao_path).split("/")
-        current_ao = self._get_by_name(self._topology, path[0])
-        for ao_name in path[1:-1]:
-            current_ao = self._get_by_name(current_ao.read(), ao_name)
-        # Dirty hack
-        current_ao.data.read()[:] = [e for e in current_ao.data.read()
-                                     if e.name != path[-1]]
+        if len(path) > 1:
+            current_ao = self._get_by_name(self._topology, path[0])
+            for ao_name in path[1:-1]:
+                current_ao = self._get_by_name(current_ao.read(), ao_name)
+            # Dirty hack
+            current_ao.read()[:] = [e for e in current_ao.read()
+                                    if e.name != path[-1]]
+        else:
+            self._topology[:] = [e for e in self._topology
+                                 if e.name != path[0]]
 
     def _get_accessible_object(self, ao_path):
         path = str(ao_path).split("/")

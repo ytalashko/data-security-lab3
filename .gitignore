@@ -39,4 +39,4 @@ target/
 
 # Django staticfiles
 staticfiles/
-static/
+!data-security-lab3/static/

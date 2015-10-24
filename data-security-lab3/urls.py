@@ -15,21 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.http import HttpResponse
-
-
-def test(request):
-    print('test')
-    return HttpResponse('Hello World')
-
+import views
 
 import api
 
 urlpatterns = [
+    url(r'^/?$', views.index),
     # admin
     url(r'^admin/', include(admin.site.urls)),
     #test
-    url(r'^test/', test),
+    # url(r'^test/', views.test, name='test'),
     # fs
     url(r'^login/', api.login),
     url(r'^logout/', api.logout),

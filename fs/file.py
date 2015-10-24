@@ -10,6 +10,9 @@ class File(AccessibleObject):
         self.set_right(user_name, 1, True)
         self._data = ''
 
+    def get_type(self):
+        return 'f'
+
     def read(self):
         return self._data
 

@@ -11,6 +11,9 @@ class Directory(AccessibleObject):
         self.set_right(user_name, 1, True)
         self._data = list()
 
+    def get_type(self):
+        return 'd'
+
     def read(self):
         return self._data
 

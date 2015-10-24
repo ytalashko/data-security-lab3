@@ -37,7 +37,11 @@ class AccessibleObject(object):
     @property
     def name(self):
         return self._name
-    
+
+    @abc.abstractmethod
+    def get_type(self):
+        pass
+
     @abc.abstractmethod
     def read(self):
         pass

@@ -23,35 +23,40 @@ def login(request):
     password = request.POST.get('password')
     y = request.POST.get('y')
     result = fs.login(user_name, password, x, y)
+    global active
+    active = result
     return HttpResponse(json.dumps(result))
 
 
 @csrf_exempt
 def logged(request):
-    result = fs.logged()
-    return HttpResponse(json.dumps(result))
+    return HttpResponse(json.dumps(active and fs.logged()))
 
 
 @csrf_exempt
 def logout(request):
-    result = fs.logout()
-    return HttpResponse(json.dumps(result))
+    global active
+    active = False
+    return HttpResponse(json.dumps(True))
 
 
 @csrf_exempt
 def check_captcha(request):
-    x = request.POST.get('x')
     y = request.POST.get('y')
     result = fs.check_captcha(x, y)
+    global active
+    active = result
     return HttpResponse(json.dumps(result))
 
 
 @csrf_exempt
 def read(request, path):
+    if not (active and fs.logged()):
+        return HttpResponse(json.dumps(None))
     data = fs.read(path)
     if type(data) is list:
         result = [{'name': e.name, 'user': e.user_name,
-                   'right': e.ao_right} for e in data]
+                   'right': e.ao_right, 'type': e.get_type} for e in data]
     else:
         result = data
     return HttpResponse(json.dumps(result))
@@ -59,6 +64,8 @@ def read(request, path):
 
 @csrf_exempt
 def write(request, path):
+    if not (active and fs.logged()):
+        return HttpResponse(json.dumps(False))
     data = request.POST.get('data')
     result = fs.write(path, data)
     return HttpResponse(json.dumps(result))
@@ -66,12 +73,16 @@ def write(request, path):
 
 @csrf_exempt
 def execute(request, path):
+    if not (active and fs.logged()):
+        return HttpResponse(json.dumps(False))
     result = fs.execute(path)
     return HttpResponse(json.dumps(result))
 
 
 @csrf_exempt
 def delete(request, path):
+    if not (active and fs.logged()):
+        return HttpResponse(json.dumps(False))
     print('delete')
     result = fs.delete(path)
     return HttpResponse(json.dumps(result))

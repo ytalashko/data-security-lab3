@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,10 +7,17 @@
 </head>
 <body>
     <h1>Login form</h1>
-
-    <form action="/asd" method="post">
+    <form action="/login/" method="post">
+        <label for="username">Username</label>
         <input type="text" name="username">
+        <p></p>
+        <label for="password">Password</label>
         <input type="password" name="password">
+        <p></p>
+        <label for="y">Y = </label>
+        <input type="text" name="y" >
+        <p></p>
+        <input type="hidden" name="x" value="2">
         <input type="submit" value="Login">
     </form>
 </body>

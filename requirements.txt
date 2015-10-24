@@ -1,0 +1,2 @@
+django==1.8.5
+django-twitter-bootstrap==3.3.0

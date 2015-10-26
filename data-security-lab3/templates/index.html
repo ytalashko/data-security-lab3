@@ -4,22 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.css' %}">
 </head>
 <body>
+<div class="container">
     <h1>Login form</h1>
-    <form action="/login/" method="post" id="loginForm">
-        <label for="username">Username</label>
-        <input type="text" name="username">
-        <p></p>
-        <label for="password">Password</label>
-        <input type="password" name="password">
-        <p></p>
-        <label for="y" id="captcha"></label>
-        <input type="text" name="y">
-        <p></p>
-        <input type="submit" value="Login">
+    <form class="form-horizontal" action="/login/" method="post" id="loginForm">
+        <div class="form-group">
+            <label class="control-label col-md-2" for="username">Username</label>
+            <div class="col-md-4">
+                <input class="form-control" type="text" name="username" id="username">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="password">Password</label>
+            <div class="col-md-4">
+                <input class="form-control" type="password" name="password" id="password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="y" id="captcha"></label>
+            <div class="col-md-4">
+                <input class="form-control" type="text" name="y" id="y">
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="btn btn-default col-md-1 col-md-offset-2" type="submit" value="Login">
+        </div>
     </form>
     <script type="text/javascript" src="{% static 'admin/js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
     <script src="{% static 'js/login.js' %}"></script>
+</div>
 </body>
 </html>

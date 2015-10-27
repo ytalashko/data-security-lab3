@@ -1,3 +1,1 @@
 django==1.8.5
-django-twitter-bootstrap==3.3.0
-django-jquery==1.7.2

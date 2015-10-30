@@ -21,6 +21,7 @@ import api
 
 urlpatterns = [
     url(r'^$', views.index),
+    url(r'^view/', views.viewObjects),
     # admin
     url(r'^admin/', include(admin.site.urls)),
     # fs

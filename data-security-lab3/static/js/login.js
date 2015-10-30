@@ -19,7 +19,7 @@ $(function(){
             alert('wrong data');
             $('#loginForm').find('input[type=text], input[type=password], textarea').val('');
         } else {
-            window.location.href = 'read/';
+            window.location.href = 'view/';
             setInterval(function () {
                 getCaptcha(function (captcha) {
                     var captchaText = 'please enter captcha: F(' + captcha + ') = ?';

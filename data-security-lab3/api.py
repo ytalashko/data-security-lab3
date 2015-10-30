@@ -53,10 +53,11 @@ def check_captcha(request):
 def read(request, path):
     if not (active and fs.logged()):
         return HttpResponse(json.dumps(None))
+    print path
     data = fs.read(path)
     if type(data) is list:
         result = [{'name': e.name, 'user': e.user_name,
-                   'right': e.ao_right, 'type': e.get_type} for e in data]
+                   'right': e.ao_right, 'type': e.get_type()} for e in data]
     else:
         result = data
     return HttpResponse(json.dumps(result))

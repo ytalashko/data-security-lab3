@@ -1,10 +1,29 @@
+{% load staticfiles %}
+
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>View folder</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.css' %}">
 </head>
 <body>
-    Objects
+    <div class="container">
+        <h2>List of files</h2>
+        <table class="table" id="table">
+            <thead>
+            <tr>
+                <th colspan="2">File name</th>
+                <th>Owner user</th>
+                <th>Rights</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script type="text/javascript" src="{% static 'admin/js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/viewObjects.js' %}"></script>
 </body>
 </html>

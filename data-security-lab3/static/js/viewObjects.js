@@ -6,7 +6,20 @@ $('document').ready(function(){
     readData('').success(generateTable);
     $('#breadcrumb li a').on('click', function(){
         goBack($(this).data('path'));
-    })
+    });
+    $('#logoutLink').click(function(){
+        $.ajax({
+            url: '/logout/'
+        }).success(function(data){
+            if(data==='true')
+                window.location.href = '/';
+            else{
+                alert('cannot logout');
+            }
+        }).error(function () {
+            alert('something goes wrong');
+        });
+    });
 });
 
 var readData = function(path){

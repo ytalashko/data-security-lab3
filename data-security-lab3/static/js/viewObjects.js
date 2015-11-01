@@ -1,5 +1,5 @@
 //todo: improve color map
-var rowClasses = ['#00CC99', '#74FFFF'];
+var rowClasses = ['#DADEE0', '#FFFFFF'];
 var isRoot = true;
 
 $('document').ready(function(){

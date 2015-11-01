@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^logged/', api.logged),
     url(r'^logout/', api.logout),
     url(r'^check-captcha/', api.check_captcha),
-    url(r'^read/(?P<path>\w{0,100})', api.read),
+    url(r'^read/(?P<path>.*)/$', api.read),
     url(r'^write/(?P<path>\w{0,1000})', api.write),
     url(r'^execute/(?P<path>\w{0,100})', api.execute),
     url(r'^delete/(?P<path>\w{0,100})', api.delete)

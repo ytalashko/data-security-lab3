@@ -11,7 +11,7 @@ $('document').ready(function(){
 
 var readData = function(path){
     return $.ajax({
-        url: '/read/' + path,
+        url: '/read/' + (path == '' ? '/':path),
         method: 'get'
     });
 };
@@ -98,8 +98,9 @@ var breadcrumbGoBack = function(){
 
 var breadcrumbGo = function(path){
     if(path!=='') {
-        $('#breadcrumb li').has('a[data-path*='+path.replace('/','')+']')
-            .each(function(){ $(this).remove()});
+        var realPath = path.split('/');
+        var items = $('#breadcrumb li').has('a[data-path*='+realPath[realPath.length-2]+']');
+        items.slice(1,items.length).each(function(){ $(this).remove()});
     } else {
         $('#breadcrumb li:gt(0)').each(function(){ $(this).remove()});
         isRoot = true;

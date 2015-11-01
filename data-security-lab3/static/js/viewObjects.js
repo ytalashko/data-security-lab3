@@ -54,6 +54,14 @@ var generateTable = function(json){
         row.append($('<td></td>').append(link));
         row.append($('<td></td>').text(data[i]['user']));
         row.append($('<td></td>').text(data[i]['right']));
+        var actionTd = $('<td></td>')
+        actionTd.append($('<div></div>').addClass('btn').addClass('btn-default')
+            .append($('<span></span>').addClass('glyphicon').addClass('glyphicon-remove'))
+            .append('Delete').on('click', del));
+        actionTd.append($('<div></div>').addClass('btn').addClass('btn-default')
+            .append($('<span></span>').addClass('glyphicon').addClass('glyphicon-search'))
+            .append('Execute').on('click',exec));
+        row.append(actionTd);
         table.append(row);
     }
 };
@@ -122,4 +130,15 @@ var breadcrumbGo = function(path){
 
 var getCurrentPath = function(){
     return $('#breadcrumb li:last-child a').data('path');
+};
+
+//action methods
+var del = function () {
+    alert('delete object action');
+};
+var exec = function () {
+    alert('execute object action');
+};
+var write = function () {
+
 };

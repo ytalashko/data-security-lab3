@@ -20,6 +20,7 @@ $('document').ready(function(){
             alert('something goes wrong');
         });
     });
+    initModalHandlers();
 });
 
 var generateTable = function(json){
@@ -50,7 +51,8 @@ var generateTable = function(json){
         var actionTd = $('<td></td>')
         actionTd.append($('<div></div>').addClass('btn').addClass('btn-default')
             .append($('<span></span>').addClass('glyphicon').addClass('glyphicon-remove'))
-            .append('Delete').on('click', del));
+            .append('Delete').attr('data-toggle','modal').attr('data-target','#deleteModal')
+            .attr('data-path',getCurrentPath() + data[i]['name'] + '/'));
         actionTd.append($('<div></div>').addClass('btn').addClass('btn-default')
             .append($('<span></span>').addClass('glyphicon').addClass('glyphicon-search'))
             .append('Execute').on('click',exec));
@@ -121,13 +123,11 @@ var breadcrumbGo = function(path){
     }
 };
 
-var getCurrentPath = function(){
-    return $('#breadcrumb li:last-child a').data('path');
-};
-
 //action methods
-var del = function () {
-    alert('delete object action');
+var del = function (path) {
+    deleteRequest(path).success(function(data){
+        $('#errorModal').modal('show');
+    });
 };
 var exec = function () {
     alert('execute object action');
@@ -135,9 +135,51 @@ var exec = function () {
 var write = function () {
 
 };
+
+//request functions
 var readRequest = function(path){
     return $.ajax({
         url: '/read/' + (path == '' ? '/':path),
         method: 'get'
     });
+};
+var writeRequest = function(path, data){
+    return $.ajax({
+        url: '/write/' + (path == '' ? '/':path),
+        method: 'post',
+        data: data
+    });
+};
+var executeRequest = function(path){
+    return $.ajax({
+        url: '/execute/' + (path == '' ? '/':path),
+        method: 'get'
+    });
+};
+var deleteRequest = function(path){
+    return $.ajax({
+        url: '/delete/' + (path == '' ? '/':path),
+        method: 'get'
+    });
+};
+
+//utils functions
+var getCurrentPath = function(){
+    return $('#breadcrumb li:last-child a').data('path');
+};
+
+var initModalHandlers = function(){
+  $('#deleteModal').on('show.bs.modal', function (e) {
+      var button = $(e.relatedTarget);
+      var filename = button.data('path').split('/').slice(-2)[0];
+      $('#deleteModal .modal-title').text('Delete: ' + filename);
+      deleteRequest(button.data('path')).success(function(data){
+          if(data === 'true') {
+              $('#deleteModal .modal-body').text('Sucessfully deleted');
+              $('tr').has('td').has('a[data-path='+filename+']').remove();
+          }
+          else
+              $('#deleteModal .modal-body').text('Error deleting item. Check rights');
+      });
+  })
 };

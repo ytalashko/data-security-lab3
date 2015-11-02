@@ -3,7 +3,7 @@ var rowClasses = ['#DADEE0', '#FFFFFF'];
 var isRoot = true;
 
 $('document').ready(function(){
-    readData('').success(generateTable);
+    readRequest('').success(generateTable);
     $('#breadcrumb li a').on('click', function(){
         goBack($(this).data('path'));
     });
@@ -21,13 +21,6 @@ $('document').ready(function(){
         });
     });
 });
-
-var readData = function(path){
-    return $.ajax({
-        url: '/read/' + (path == '' ? '/':path),
-        method: 'get'
-    });
-};
 
 var generateTable = function(json){
     var data = JSON.parse(json);
@@ -71,7 +64,7 @@ var goNext = function(path, fileType){
     path = getCurrentPath() + path + '/';
     if(fileType){
         openFile(path);
-        breadcrumbGoNext(path);
+        //breadcrumbGoNext(path);
     } else {
         openDir(path);
         breadcrumbGoNext(path);
@@ -88,7 +81,7 @@ var goBack = function(path){
 };
 
 var openDir = function(dirPath){
-    readData(dirPath).success(generateTable).error(function(){
+    readRequest(dirPath).success(generateTable).error(function(){
         alert('error');
     });
 };
@@ -141,4 +134,10 @@ var exec = function () {
 };
 var write = function () {
 
+};
+var readRequest = function(path){
+    return $.ajax({
+        url: '/read/' + (path == '' ? '/':path),
+        method: 'get'
+    });
 };

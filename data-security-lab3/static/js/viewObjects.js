@@ -48,14 +48,26 @@ var generateTable = function(json){
         row.append($('<td></td>').append(link));
         row.append($('<td></td>').text(data[i]['user']));
         row.append($('<td></td>').text(data[i]['right']));
-        var actionTd = $('<td></td>')
-        actionTd.append($('<div></div>').addClass('btn').addClass('btn-default')
+        var actionTd = $('<td></td>');
+        var deleteButton = $('<div></div>').addClass('btn').addClass('btn-default')
             .append($('<span></span>').addClass('glyphicon').addClass('glyphicon-remove'))
             .append('Delete').attr('data-toggle','modal').attr('data-target','#deleteModal')
-            .attr('data-path',getCurrentPath() + data[i]['name'] + '/'));
-        actionTd.append($('<div></div>').addClass('btn').addClass('btn-default')
+            .attr('data-path',getCurrentPath() + data[i]['name'] + '/');
+        var writeButton = $('<div></div>').addClass('btn').addClass('btn-default')
+            .append($('<span></span>').addClass('glyphicon').addClass('glyphicon-edit'))
+            .append('Write').attr('data-toggle','modal')
+            .attr('data-path',getCurrentPath() + data[i]['name'] + '/');
+        if(isFile){
+            writeButton.attr('data-target','#writeFileModal');
+        } else {
+            writeButton.attr('data-target','#writeDirModal');
+        }
+        var executeButton = $('<div></div>').addClass('btn').addClass('btn-default')
             .append($('<span></span>').addClass('glyphicon').addClass('glyphicon-search'))
-            .append('Execute').on('click',exec));
+            .append('Execute').on('click',exec);
+        actionTd.append(deleteButton);
+        actionTd.append(writeButton);
+        actionTd.append(executeButton);
         row.append(actionTd);
         table.append(row);
     }
@@ -169,17 +181,31 @@ var getCurrentPath = function(){
 };
 
 var initModalHandlers = function(){
-  $('#deleteModal').on('show.bs.modal', function (e) {
-      var button = $(e.relatedTarget);
-      var filename = button.data('path').split('/').slice(-2)[0];
-      $('#deleteModal .modal-title').text('Delete: ' + filename);
-      deleteRequest(button.data('path')).success(function(data){
-          if(data === 'true') {
-              $('#deleteModal .modal-body').text('Sucessfully deleted');
-              $('tr').has('td').has('a[data-path='+filename+']').remove();
-          }
-          else
-              $('#deleteModal .modal-body').text('Error deleting item. Check rights');
-      });
-  })
+    $('#deleteModal').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var filename = button.data('path').split('/').slice(-2)[0];
+        $('#deleteModal .modal-title').text('Delete: ' + filename);
+        deleteRequest(button.data('path')).success(function(data){
+            if(data === 'true') {
+                $('#deleteModal .modal-body').text('Sucessfully deleted');
+                $('tr').has('td').has('a[data-path='+filename+']').remove();
+            } else
+                $('#deleteModal .modal-body').text('Error deleting item. Check rights');
+        });
+    });
+    $('#writeFileModal').on('show.bs.modal', function(e){
+        var button = $(e.relatedTarget);
+        var path = '/write/' + button.data('path');
+        var filename = path.split('/').slice(-2)[0];
+        $('#writeFileModal .modal-title').text('Write data to ' + filename);
+        $('#writeFileForm').submit(function () {
+            $.post(path, $(this).serialize(), function(result){
+                if(result === 'true'){
+                    alert("Successful!!");
+                } else
+                    alert("Error!");
+                $('#writeFileModal').modal('hide');
+            }, 'json');
+        })
+    });
 };

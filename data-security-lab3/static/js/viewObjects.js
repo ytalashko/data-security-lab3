@@ -31,7 +31,7 @@ var generateTable = function(json){
         var row = $('<tr></tr>');
         row.append($('<td></td>').addClass('glyphicon').addClass('glyphicon-level-up'));
         row.append($('<td></td>').append($('<a></a>').text('Go back ..')
-            .on('click', function(){ goBack();})));
+            .on('click', function(){ goBack();})).css('cursor', 'pointer'));
         table.append(row);
     }
     for(var i in data){
@@ -44,7 +44,7 @@ var generateTable = function(json){
             .attr('data-type',isFile).text(data[i]['name'])
             .on('click',function(){
                 goNext($(this).data('path'), $(this).data('type'));
-            });
+            }).css('cursor', 'pointer');
         row.append($('<td></td>').append(link));
         row.append($('<td></td>').text(data[i]['user']));
         row.append($('<td></td>').text(data[i]['right']));
@@ -100,7 +100,7 @@ var breadcrumbGoNext = function(path){
             .append($('<a></a>').attr('data-path',path).text(shortPath)
             .on('click',function(){
                 goBack($(this).data('path'));
-            })));
+            }).css('cursor', 'pointer')));
 };
 
 var breadcrumbGoBack = function(){

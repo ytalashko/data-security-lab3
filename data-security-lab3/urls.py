@@ -31,9 +31,9 @@ urlpatterns = [
     url(r'^logout/', api.logout),
     url(r'^check-captcha/', api.check_captcha),
     url(r'^read/(?P<path>.*)/$', api.read),
-    url(r'^write/(?P<path>\w{0,1000})', api.write),
-    url(r'^execute/(?P<path>\w{0,100})', api.execute),
-    url(r'^delete/(?P<path>\w{0,100})', api.delete)
+    url(r'^write/(?P<path>.*)/$', api.write),
+    url(r'^execute/(?P<path>.*)/$', api.execute),
+    url(r'^delete/(?P<path>.*)/$', api.delete)
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])

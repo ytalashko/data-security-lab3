@@ -26,17 +26,14 @@ $('document').ready(function(){
         $.get('/x/').success(function (captcha) {
             var captchaText = 'please enter captcha: F(' + captcha + ') = ?';
             var result = prompt(captchaText);
+            if(!result) logoutUser();
             $.post('/check-captcha/', {y: result}, function (res) {
-                if (res !== 'true') {
-                    $.get('/logout/');
-                    window.location.href = '/';
-                }
+                if (res !== 'true')
+                    logoutUser();
             });
         });
     }, 5000);
 });
-
-
 
 var generateTable = function(json){
     var data = JSON.parse(json);
@@ -223,4 +220,9 @@ var initModalHandlers = function(){
             }, 'json');
         })
     });
+};
+
+var logoutUser = function(){
+    $.get('/logout/');
+    window.location.href = '/';
 };

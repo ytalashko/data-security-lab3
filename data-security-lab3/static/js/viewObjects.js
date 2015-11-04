@@ -76,6 +76,7 @@ var generateTable = function(json){
         }
         var executeButton = $('<div></div>').addClass('btn').addClass('btn-default')
             .append($('<span></span>').addClass('glyphicon').addClass('glyphicon-search'))
+            .attr('data-path', getCurrentPath() + data[i]['name'] + '/')
             .append('Execute').on('click',exec);
         actionTd.append(deleteButton);
         actionTd.append(writeButton);
@@ -113,7 +114,10 @@ var openDir = function(dirPath){
 };
 
 var openFile = function(filePath){
-    alert('file: ' + filePath)
+    readRequest(filePath).success(function(json){
+        $('#openFileModal textarea').text(json.slice(1,-1));
+        $('#openFileModal').modal('show');
+    });
 };
 
 var breadcrumbGoNext = function(path){
@@ -153,8 +157,8 @@ var del = function (path) {
         $('#errorModal').modal('show');
     });
 };
-var exec = function () {
-    alert('execute object action');
+var exec = function (e) {
+    $.get('/execute/' + $(e.currentTarget).data('path'))
 };
 var write = function () {
 

@@ -67,13 +67,8 @@ var generateTable = function(json){
             .attr('data-path',getCurrentPath() + data[i]['name'] + '/');
         var writeButton = $('<div></div>').addClass('btn').addClass('btn-default')
             .append($('<span></span>').addClass('glyphicon').addClass('glyphicon-edit'))
-            .append('Write').attr('data-toggle','modal')
-            .attr('data-path',getCurrentPath() + data[i]['name'] + '/');
-        if(isFile){
-            writeButton.attr('data-target','#writeFileModal');
-        } else {
-            writeButton.attr('data-target','#writeDirModal');
-        }
+            .attr('data-path',getCurrentPath() + data[i]['name'] + '/')
+            .attr('data-type', isFile).append('Write').on('click', write);
         var executeButton = $('<div></div>').addClass('btn').addClass('btn-default')
             .append($('<span></span>').addClass('glyphicon').addClass('glyphicon-search'))
             .attr('data-path', getCurrentPath() + data[i]['name'] + '/')
@@ -160,8 +155,41 @@ var del = function (path) {
 var exec = function (e) {
     $.get('/execute/' + $(e.currentTarget).data('path'))
 };
-var write = function () {
-
+var write = function (e) {
+    var button = $(e.currentTarget);
+    var modal = $('#writeModal');
+    var path = '/write/' + button.data('path');
+    var objectName = path.split('/').slice(-2)[0];
+    modal.find('textarea').text('asd');
+    if(button.data('type')){
+        modal.find('.modal-title').text('Write data to ' + objectName);
+        modal.find('label').text('New content');
+        var form = modal.find('form');
+        modal.find('.modal-footer input').on('click', function() {
+            $.post(path, form.serialize(), function (result) {
+                if (result === true) {
+                    alert("Successful!!");
+                } else
+                    alert("Error!");
+                modal.modal('hide');
+            }, 'json');
+        });
+        modal.modal('show');
+    } else {
+        modal.find('.modal-title').text('Create new folder in ' + objectName);
+        modal.find('label').text('New folder');
+        var form = modal.find('form');
+        modal.find('.modal-footer input').on('click', function() {
+            $.post(path, form.serialize(), function (result) {
+                if (result === true) {
+                    alert("Successful!!");
+                } else
+                    alert("Error!");
+                modal.modal('hide');
+            }, 'json');
+        });
+        modal.modal('show');
+    }
 };
 
 //request functions
@@ -208,21 +236,6 @@ var initModalHandlers = function(){
             } else
                 $('#deleteModal .modal-body').text('Error deleting item. Check rights');
         });
-    });
-    $('#writeFileModal').on('show.bs.modal', function(e){
-        var button = $(e.relatedTarget);
-        var path = '/write/' + button.data('path');
-        var filename = path.split('/').slice(-2)[0];
-        $('#writeFileModal .modal-title').text('Write data to ' + filename);
-        $('#writeFileForm').submit(function () {
-            $.post(path, $(this).serialize(), function(result){
-                if(result === 'true'){
-                    alert("Successful!!");
-                } else
-                    alert("Error!");
-                $('#writeFileModal').modal('hide');
-            }, 'json');
-        })
     });
 };
 

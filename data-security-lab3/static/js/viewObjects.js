@@ -21,7 +21,22 @@ $('document').ready(function(){
         });
     });
     initModalHandlers();
+
+    setInterval(function () {
+        $.get('/x/').success(function (captcha) {
+            var captchaText = 'please enter captcha: F(' + captcha + ') = ?';
+            var result = prompt(captchaText);
+            $.post('/check-captcha/', {y: result}, function (res) {
+                if (res !== 'true') {
+                    $.get('/logout/');
+                    window.location.href = '/';
+                }
+            });
+        });
+    }, 5000);
 });
+
+
 
 var generateTable = function(json){
     var data = JSON.parse(json);
